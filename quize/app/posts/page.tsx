@@ -1,10 +1,9 @@
 import prisma from "@/lib/prisma";
 
-export default async function Post({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function Post() {
+  const users = await prisma.user.findMany();
+  console.log(users, "users");
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center -mt-16">
       <article className="max-w-2xl space-y-4 font-[family-name:var(--font-geist-sans)]">
