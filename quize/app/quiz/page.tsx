@@ -1,21 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import {
-  FileText,
-  LogIn,
-  RotateCw,
-  Sparkles,
-  Trash,
-  User2,
-} from "lucide-react";
+
+import { FileText, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -29,60 +21,45 @@ type DetectedObject = {
 };
 
 export default function Home() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [objects, setObjects] = useState<DetectedObject[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [post, setPost] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setImagePreview(URL.createObjectURL(file));
-      setObjects([]);
-    }
-  };
+  console.log(title, "title");
+  console.log(content, "content");
 
-  const handleDetect = async () => {
-    if (!selectedFile) return;
-    setLoading(true);
-    setObjects([]);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
     try {
-      const formData = new FormData();
-      formData.append("image", selectedFile);
+      const res = await fetch("/api/article", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, content, userId }),
+      });
 
-      const data = await (
-        await fetch("/api/object-derection", {
-          method: "POST",
-          body: formData,
-        })
-      ).json();
+      if (!res.ok) {
+        throw new Error("Failed to generate post");
+      }
 
-      setObjects(data.object || []);
+      const data = await res.json();
+      setPost(data.post);
     } catch (err) {
-      console.error(err);
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred"
+      );
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  };
-
-  const removeSelectedImage = () => {
-    setSelectedFile(null);
-
-    if (imagePreview) {
-      URL.revokeObjectURL(imagePreview);
-    }
-    setImagePreview("");
   };
   return (
     <div className="w-full  flex-col justify-end items-end ">
-      <div className="flex w-full justify-between items-center pl-12 pr-12">
-        <h1 className="p-4  text-xl font-bold">AI tools</h1>
-        <Button variant="outline" size="icon" className="rounded-full w-10 ">
-          <User2 />
-        </Button>
-      </div>
       <hr className="w-full" />
 
       <div className="flex w-full justify-center h-full items-start">
@@ -96,14 +73,6 @@ export default function Home() {
                     <Sparkles />
                     Article Quiz Generator
                   </div>
-                  {/* <Button
-                    className="w-12 h-10"
-                    variant="outline"
-                    size="icon"
-                    aria-label="Submit"
-                  >
-                    <RotateCw />
-                  </Button> */}
                 </div>
               </CardTitle>
               <CardDescription>
@@ -123,7 +92,8 @@ export default function Home() {
                   id="tabs-demo-name"
                   placeholder="Enter a title for your article..."
                   accept="image/*" // Restrict file selection to images
-                  onChange={handleImageUpload}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
                 />
               </div>
               <div className="grid gap-3">
@@ -136,17 +106,20 @@ export default function Home() {
                   id="tabs-demo-name"
                   placeholder="Enter a title for your article..."
                   accept="image/*" // Restrict file selection to images
-                  onChange={handleImageUpload}
+                  onChange={(e) => setContent(e.target.value)}
+                  required
                 />
               </div>
               <div className="flex justify-end">
                 <Button
-                  onClick={handleDetect}
-                  disabled={!imagePreview}
+                  onClick={handleSubmit}
+                  disabled={isLoading}
                   className="h-10"
                 >
-                  {loading ? "Generating..." : "Generate"}
+                  {isLoading ? "Generating..." : "Generate"}
                 </Button>
+                {error && <p className="text-red-500 mb-4">{error}</p>}
+                <p>{post}</p>
               </div>
             </CardContent>
           </Card>
