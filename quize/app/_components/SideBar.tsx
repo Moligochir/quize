@@ -6,11 +6,9 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 // Menu items.
@@ -41,9 +39,10 @@ const items = [
     icon: Settings,
   },
 ];
-export const SideBar = () => {
+
+export function AppSidebar() {
   return (
-    <Sidebar className="pt-10">
+    <Sidebar>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
@@ -63,7 +62,6 @@ export const SideBar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarTrigger className="absolute left-60 top-20" />
     </Sidebar>
   );
-};
+}

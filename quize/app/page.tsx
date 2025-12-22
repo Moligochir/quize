@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Sidebar } from "@/components/ui/sidebar";
+
 import { useUser } from "@clerk/nextjs";
 
 type DetectedObject = {
@@ -30,11 +30,12 @@ export default function Home() {
   const { user } = useUser();
   console.log(title, "title");
   console.log(content, "content");
+  console.log(user, "useree");
 
   const userId = user?.id;
 
   // use => userId(clerkId)
-  console.log(userId, "user");
+  console.log(userId, "userId");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,9 +68,7 @@ export default function Home() {
   return (
     <div className="w-full  flex-col justify-end items-end ">
       <hr className="w-full" />
-
       <div className="flex w-full justify-center h-full items-start">
-        <Sidebar />
         <div className="flex w-full max-w-[580px] flex-col gap-6">
           <Card className="border-none shadow-none ">
             <CardHeader>

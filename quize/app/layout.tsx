@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
+
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 import {
   ClerkProvider,
@@ -24,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { ChevronRight } from "lucide-react";
+import { AppSidebar } from "./_components/SideBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,51 +53,6 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {/* <div className="flex justify-center items-center w-full h-full">
-            <Card className="w-full max-w-sm">
-              <CardHeader>
-                <SignedOut></SignedOut>
-                <CardTitle className="flex justify-center font-bold">
-                  Sign in to test
-                </CardTitle>
-                <CardDescription className="flex justify-center">
-                  Welcome back! Please sign in to continue
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent>
-                <form>
-                  <div className="flex flex-col gap-6">
-                    <div className="grid gap-2">
-                      <SignedIn></SignedIn>
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="Enter your email address"
-                        required
-                      />
-                    </div>
-                  </div>
-                </form>
-              </CardContent>
-              <CardFooter className="flex-col gap-2">
-                <div className="w-full flex bg-purple-600 h-10 text-white rounded-md items-center justify-center">
-                  <SignInButton />
-                  <ChevronRight />
-                </div>
-
-                <CardAction className="flex justify-center items-center w-full">
-                  <p className="text-neutral-500 text-sm">
-                    Don't have an account?
-                  </p>
-                  <div className="text-purple-600">
-                    <SignUpButton>Sign Up</SignUpButton>
-                  </div>
-                </CardAction>
-              </CardFooter>
-            </Card>
-          </div> */}
           <header className="flex justify-center items-center p-4 gap-4 h-full">
             <SignedOut>
               <Card className="w-full max-w-sm">
@@ -136,7 +93,11 @@ export default function RootLayout({
 
                   <UserButton />
                 </div>
-                <SidebarProvider style={{}}>{children}</SidebarProvider>
+                <SidebarProvider>
+                  <AppSidebar />
+                  <SidebarTrigger />
+                  {children}
+                </SidebarProvider>
               </div>
             </SignedIn>
           </header>
