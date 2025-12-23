@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { FileText, Sparkles } from "lucide-react";
+import { BookOpen, FileText, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -91,44 +91,56 @@ export default function Home() {
                   </div>
                 </div>
               </CardTitle>
-              <CardDescription>
-                Paste your article below to generate a summarize and quiz
-                question. Your articles will saved in the sidebar for future
-                reference.
+              <CardDescription className="flex gap-2 text-xs justify-start items-center">
+                <BookOpen />
+                Summarized content
               </CardDescription>
+              <h1 className="w-full h-fit">
+                Born Temüjin, Genghis Khan overcame a difficult childhood marked
+                by poverty and abandonment after his father's death, building
+                his initial following through charisma and early alliances.
+                After years of strategic maneuvering, betrayals, and decisive
+                victories against former allies and rivals like Jamukha and
+                Toghrul, he emerged as the sole ruler of the Mongolian steppe.
+              </h1>
             </CardHeader>
             <CardContent className="grid gap-6">
+              <div className="grid gap-3"></div>
               <div className="grid gap-3">
-                <label className="flex">
+                <CardDescription className="flex gap-2 text-xs justify-start items-center">
                   <FileText />
-                  Article Title
-                </label>
-                <Input
-                  className="h-10"
-                  id="tabs-demo-name"
-                  placeholder="Enter a title for your article..."
-                  accept="image/*" // Restrict file selection to images
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
+                  Article Content
+                </CardDescription>
+                <h1 className="h-12 w-full overflow-hidden">
+                  Born between 1155 and 1167 and given the name Temüjin, he was
+                  the eldest child of Yesugei, a Mongol chieftain of the
+                  Borjigin clan, and his wife Hö'elün. When Temüjin was eight,
+                  his father died and his family was abandoned by its tribe.
+                  Reduced to near-poverty, Temüjin killed his older half-brother
+                  to secure his familial position. His charismatic personality
+                  helped to attract his first followers and to form alliances
+                  with two prominent steppe leaders named Jamukha and Toghrul;
+                  they worked together to retrieve Temüjin's newlywed wife
+                  Börte, who had been kidnapped by raiders. As his reputation
+                  grew, his relationship with Jamukha deteriorated into open
+                  warfare. Temüjin was badly defeated in c. 1187, and may have
+                  spent the following years as a subject of the Jin dynasty;
+                  upon reemerging in 1196, he swiftly began gaining power.
+                  Toghrul came to view Temüjin as a threat and launched a
+                  surprise attack on him in 1203. Temüjin regrouped and
+                  overpowered Toghrul; after defeating the Naiman tribe and
+                  executing Jamukha, he was left as the sole ruler on the
+                  Mongolian steppe.
+                </h1>
+                <button className="w-full flex justify-end">see more</button>
               </div>
-              <div className="grid gap-3">
-                <label className="flex">
-                  <FileText />
-                  Article Title
-                </label>
-                <Textarea
-                  className="h-40"
-                  onChange={(e) => setContent(e.target.value)}
-                ></Textarea>
-              </div>
-              <div className="flex justify-end">
+              <div className="flex justify-start">
                 <Button
                   onClick={handleSubmit}
                   disabled={isLoading}
                   className="h-10"
                 >
-                  {isLoading ? "Generating..." : "Generate"}
+                  Take a quiz
                 </Button>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <p>{post}</p>
