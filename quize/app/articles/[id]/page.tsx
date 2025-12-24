@@ -17,65 +17,28 @@ import { useUser } from "@clerk/nextjs";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-
-type DetectedObject = {
-  label: string;
-  score: number;
-  box: { xmin: number; ymin: number; xmax: number; ymax: number };
-};
 
 export default function Home() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [post, setPost] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const { user } = useUser();
-  console.log(title, "title");
-  console.log(content, "content");
-
-  const userId = user?.id;
-
-  // use => userId(clerkId)
-  console.log(userId, "userId");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
+  const showData = async (request: Request) => {
     try {
-      const res = await fetch("/api/article", {
-        method: "POST",
+      const res = await fetch("api/article", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content, userId }),
+        body: JSON.stringify({}),
       });
-
-      if (!res.ok) {
-        throw new Error("Failed to generate post");
-      }
-
-      const data = await res.json();
-      setPost(data.post);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unknown error occurred"
-      );
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
     }
   };
+  showData();
   return (
     <div className="w-full  flex-col justify-end items-end ">
       <hr className="w-full" />
@@ -95,6 +58,7 @@ export default function Home() {
                 <BookOpen />
                 Summarized content
               </CardDescription>
+              <CardTitle>Genghis khan</CardTitle>
               <h1 className="w-full h-fit">
                 Born Temüjin, Genghis Khan overcame a difficult childhood marked
                 by poverty and abandonment after his father's death, building
@@ -132,56 +96,53 @@ export default function Home() {
                   executing Jamukha, he was left as the sole ruler on the
                   Mongolian steppe.
                 </h1>
-                <button className="w-full flex justify-end">see more</button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="w-full flex justify-end">
+                      see more
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Genghis khan</DialogTitle>
+                      <DialogDescription>
+                        Born between 1155 and 1167 and given the name Temüjin,
+                        he was the eldest child of Yesugei, a Mongol chieftain
+                        of the Borjigin clan, and his wife Hö'elün. When Temüjin
+                        was eight, his father died and his family was abandoned
+                        by its tribe. Reduced to near-poverty, Temüjin killed
+                        his older half-brother to secure his familial position.
+                        His charismatic personality helped to attract his first
+                        followers and to form alliances with two prominent
+                        steppe leaders named Jamukha and Toghrul; they worked
+                        together to retrieve Temüjin's newlywed wife Börte, who
+                        had been kidnapped by raiders. As his reputation grew,
+                        his relationship with Jamukha deteriorated into open
+                        warfare. Temüjin was badly defeated in c. 1187, and may
+                        have spent the following years as a subject of the Jin
+                        dynasty; upon reemerging in 1196, he swiftly began
+                        gaining power. Toghrul came to view Temüjin as a threat
+                        and launched a surprise attack on him in 1203. Temüjin
+                        regrouped and overpowered Toghrul; after defeating the
+                        Naiman tribe and executing Jamukha, he was left as the
+                        sole ruler on the Mongolian steppe.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
               <div className="flex justify-start">
-                <Button
-                  onClick={handleSubmit}
-                  disabled={isLoading}
-                  className="h-10"
-                >
+                <Button onClick={""} disabled={""} className="h-10">
                   Take a quiz
                 </Button>
-                {error && <p className="text-red-500 mb-4">{error}</p>}
-                <p>{post}</p>
+                {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
+                {/* <p>{post}</p> */}
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
       <div className="flex w-full px-10 justify-end items-end  absolute bottom-10"></div>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline">Share</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Share link</DialogTitle>
-            <DialogDescription>
-              Anyone who has this link will be able to view this.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex items-center gap-2">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="link" className="sr-only">
-                Link
-              </Label>
-              <Input
-                id="link"
-                defaultValue="https://ui.shadcn.com/docs/installation"
-                readOnly
-              />
-            </div>
-          </div>
-          <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Close
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

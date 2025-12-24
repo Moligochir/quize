@@ -18,6 +18,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 export const GET = async (request: Request) => {
   try {
     const articles = await prisma.article.findMany();
+    console.log(articles, "articles");
 
     return new Response(JSON.stringify({ articles }), { status: 200 });
   } catch (err) {

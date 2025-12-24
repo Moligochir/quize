@@ -40,6 +40,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useUser();
+
   console.log(title, "title");
   console.log(content, "content");
 
@@ -76,6 +77,7 @@ export default function Home() {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="w-full  flex-col justify-end items-end ">
       <hr className="w-full" />
