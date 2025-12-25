@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { FileText, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,12 +26,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-
-type DetectedObject = {
-  label: string;
-  score: number;
-  box: { xmin: number; ymin: number; xmax: number; ymax: number };
-};
+import { NextRequest } from "next/server";
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -48,6 +43,39 @@ export default function Home() {
 
   // use => userId(clerkId)
   console.log(userId, "userId");
+
+  // const showData = async (request: NextRequest) => {
+  //   try {
+  //     const res = await fetch("api/article", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({}),
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  //   console.log();
+  // };
+  // showData();
+  const createUser = async () => {
+    try {
+      await fetch("api/user", {
+        method: "POST",
+        body: JSON.stringify({
+          name: user?.fullName,
+          email: user?.primaryEmailAddress?.emailAddress,
+          clerkId: user?.id,
+        }),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    if (user) createUser();
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

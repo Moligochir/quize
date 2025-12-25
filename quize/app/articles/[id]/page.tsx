@@ -25,20 +25,20 @@ import {
 } from "@/components/ui/dialog";
 
 export default function Home() {
-  const showData = async (request: Request) => {
-    try {
-      const res = await fetch("api/article", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  showData();
+  // const showData = async (request: Request) => {
+  //   try {
+  //     const res = await fetch("api/article", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({}),
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // showData();
   return (
     <div className="w-full  flex-col justify-end items-end ">
       <hr className="w-full" />

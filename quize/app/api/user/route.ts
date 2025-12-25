@@ -1,14 +1,22 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
+import { NextRequest } from "next/server";
 
-export async function handleUserCreated(event: any) {
-  const user = event.data;
-  const { title, content, userId } = await event.data.json();
-
-  await prisma.user.create({
-    data: {
-      clerkId: user.id,
-      email: user.email_addresses[0].email_address,
-      name: user.name,
-    },
-  });
-}
+export const POST = async (req: NextRequest) => {
+  const { email, name, clerkId } = await req.json();
+  try {
+    const existingUser = await prisma.user.findFirst({ where: { clerkId } });
+    if (existingUser)
+      return new Response(JSON.stringify({ message: "User already exists" }));
+    const user = await prisma.user.create({
+      data: {
+        email,
+        name,
+        clerkId,
+      },
+    });
+    return new Response(JSON.stringify({ message: "Success", data: user }));
+  } catch (error) {
+    console.log(error);
+    return new Response("Failed");
+  }
+};
