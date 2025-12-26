@@ -39,26 +39,26 @@ export default function Home() {
   console.log(title, "title");
   console.log(content, "content");
 
-  const userId = user?.id;
+  const clerkId = user?.id;
 
-  // use => userId(clerkId)
-  console.log(userId, "userId");
+  console.log(clerkId, "clerk");
 
-  // const showData = async (request: NextRequest) => {
+  // const getData = async () => {
   //   try {
   //     const res = await fetch("api/article", {
   //       method: "GET",
   //       headers: {
   //         "Content-Type": "application/json",
   //       },
-  //       body: JSON.stringify({}),
   //     });
+  //     const jsonData = await res.json();
+  //     console.log(jsonData.articles[0].title, "resseeee");
   //   } catch (error) {
   //     console.error(error);
   //   }
-  //   console.log();
   // };
-  // showData();
+  // getData();
+
   const createUser = async () => {
     try {
       await fetch("api/user", {
@@ -88,7 +88,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content, userId }),
+        body: JSON.stringify({ title, content, clerkId }),
       });
 
       if (!res.ok) {

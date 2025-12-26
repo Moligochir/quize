@@ -15,17 +15,17 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-// export const GET = async (request: Request) => {
-//   try {
-//     const articles = await prisma.article.findMany();
-//     console.log(articles, "articles");
+export const GET = async (request: Request) => {
+  try {
+    const articles = await prisma.article.findMany();
+    console.log(articles, "articles");
 
-//     return new Response(JSON.stringify({ articles }), { status: 200 });
-//   } catch (err) {
-//     console.log(err);
-//     return new Response("Failed to fetch all articles", { status: 500 });
-//   }
-// };
+    return new Response(JSON.stringify({ articles }), { status: 200 });
+  } catch (err) {
+    console.log(err);
+    return new Response("Failed to fetch all articles", { status: 500 });
+  }
+};
 
 // export const POST = async (request: Request) => {
 //   const { clerkId } = await request.json();
@@ -76,7 +76,8 @@ import prisma from "@/lib/prisma";
 
 export const POST = async (request: Request) => {
   try {
-    const { clerkId, email, name, title, content } = await request.json();
+    const { clerkId, title, content } = await request.json();
+    console.log(clerkId, "clerkid", title, "title", content, "sddsadsadadsa");
 
     if (!clerkId || !title || !content) {
       return new Response(
@@ -89,22 +90,10 @@ export const POST = async (request: Request) => {
       where: { clerkId },
     });
 
-    if (!user) {
-      if (!email) {
-        return new Response(
-          JSON.stringify({ error: "email is required to create user" }),
-          { status: 400 }
-        );
-      }
-
-      user = await prisma.user.create({
-        data: {
-          clerkId,
-          email,
-          name,
-        },
+    if (!user)
+      return new Response(JSON.stringify({ error: "Please login" }), {
+        status: 400,
       });
-    }
 
     const res = await model.generateContent({
       contents: [

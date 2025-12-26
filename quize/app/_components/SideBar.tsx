@@ -1,3 +1,5 @@
+"use client";
+
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 
 import {
@@ -10,6 +12,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useEffect, useState } from "react";
+import { title } from "process";
 
 // Menu items.
 const items = [
@@ -40,20 +44,45 @@ const items = [
   },
 ];
 
+type Article = {
+  title: string;
+};
+
 export function AppSidebar() {
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  const getData = async () => {
+    try {
+      const res = await fetch("api/article", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const jsonData = await res.json();
+      setArticles(jsonData.articles);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  console.log(articles, "resseeee");
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>History</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {articles.map((article, index) => (
+                <SidebarMenuItem key={index}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                    <a href={""}>
+                      <span>{article.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
