@@ -13,36 +13,35 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
-import { title } from "process";
 
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+// // Menu items.
+// const items = [
+//   {
+//     title: "Home",
+//     url: "#",
+//     icon: Home,
+//   },
+//   {
+//     title: "Inbox",
+//     url: "#",
+//     icon: Inbox,
+//   },
+//   {
+//     title: "Calendar",
+//     url: "#",
+//     icon: Calendar,
+//   },
+//   {
+//     title: "Search",
+//     url: "#",
+//     icon: Search,
+//   },
+//   {
+//     title: "Settings",
+//     url: "#",
+//     icon: Settings,
+//   },
+// ];
 
 type Article = {
   title: string;
@@ -53,7 +52,7 @@ export function AppSidebar() {
 
   const getData = async () => {
     try {
-      const res = await fetch("api/article", {
+      const res = await fetch("/api/article", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +80,7 @@ export function AppSidebar() {
               {articles.map((article, index) => (
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton asChild>
-                    <a href={""}>
+                    <a href={article.id}>
                       <span>{article.title}</span>
                     </a>
                   </SidebarMenuButton>
