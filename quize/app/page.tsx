@@ -145,7 +145,7 @@ export default function Home() {
               <div className="grid gap-3">
                 <label className="flex">
                   <FileText />
-                  Article Title
+                  Article Content
                 </label>
                 <Textarea
                   className="h-40"
@@ -156,7 +156,7 @@ export default function Home() {
                 <Button
                   onClick={handleSubmit}
                   disabled={isLoading}
-                  className="h-10"
+                  className="h-10 cursor-pointer"
                 >
                   {isLoading ? "Generating..." : "Generate"}
                 </Button>

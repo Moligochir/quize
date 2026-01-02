@@ -25,7 +25,7 @@ export const SummarizeHistory = () => {
 
   const getDataArticle = async () => {
     try {
-      const res = await fetch("/api/article", {
+      const res = await fetch(`/api/article`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -78,14 +78,14 @@ export const SummarizeHistory = () => {
                 </CardDescription>
                 <h1 className="h-12 w-full overflow-hidden">{content}</h1>
                 <Dialog>
-                  <DialogTrigger asChild>
-                    <button className="w-full flex justify-end">
+                  <DialogTrigger className="flex justify-end" asChild>
+                    <button className="w-full  cursor-pointer hover:underline">
                       see more
                     </button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle>Genghis khan</DialogTitle>
+                      <DialogTitle>{title}</DialogTitle>
                       <DialogDescription>{content}</DialogDescription>
                     </DialogHeader>
                   </DialogContent>

@@ -10,6 +10,7 @@
 // };
 
 // import prisma from "@/lib/prisma";
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
@@ -101,7 +102,7 @@ export const POST = async (request: Request) => {
           role: "user",
           parts: [
             {
-              text: `Summarize briefly in 2-3 sentences:\nTitle: ${title}\nContent: ${content}`,
+              text: `Summarize briefly in 4-5 sentences:\nTitle: ${title}\nContent: ${content}`,
             },
           ],
         },
